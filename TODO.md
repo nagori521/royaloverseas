@@ -1,9 +1,10 @@
-# TODO
+# TODO (Gallery Cloudinary Migration)
 
-## MongoDB local setup (Windows)
-- [ ] Add `scripts/setup-mongodb-windows.ps1` to install/configure MongoDB locally (including PATH + start service).
-- [ ] Update `README.md` (and `QUICKSTART.md` if present) with step-by-step instructions to run the script and verify.
-- [ ] (Optional) Add `npm run setup:mongo` script in `package.json`.
-- [x] Test flow: run PowerShell setup script, then run `node server/startup-diagnostics.mjs` and `npm run dev:server`.
-- [ ] Document exact steps in README/QUICKSTART.
+- [x] Inspect existing gallery controller/routes/UI code to find local `/uploads` usage
+- [x] Verify product module uses Cloudinary storage via `server/config/cloudinary.js` and `server/middleware/uploadMiddleware.js`
+- [x] Update gallery create/update to store `cloudinary secure_url` (not local paths)
+- [x] Ensure existing gallery CRUD keeps working with the updated image URLs
+- [x] Update any frontend rendering logic that assumes `/uploads/...` for gallery images
+- [x] Remove dependency on local gallery uploads paths in gallery rendering
+- [x] Build verification: `npm run build` passes
 
