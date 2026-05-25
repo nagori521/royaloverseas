@@ -33,7 +33,11 @@ export default function ProductDetail() {
   }, [product, products]);
 
   if (!product && loading) {
-    return <div className="container-page py-20">Loading...</div>;
+    return (
+      <div className="container-page py-20 text-center">
+        Loading product...
+      </div>
+    );
   }
 
   if (!product) {

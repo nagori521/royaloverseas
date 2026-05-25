@@ -20,6 +20,7 @@ export function normalizeProduct(product) {
     title: product.title || product.name,
     images,
     features: product.features || [],
+    specifications: product.specifications || [],
     packaging,
     packagingSizes,
     image: primaryImage,

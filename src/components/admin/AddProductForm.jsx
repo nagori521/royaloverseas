@@ -68,7 +68,7 @@ export default function AddProductForm({ onSave }) {
             <input
               value={form.category}
               onChange={(event) => updateField('category', event.target.value)}
-              placeholder="Enter category"
+              placeholder="Enter new category"
               className="rounded-md border border-slate-300 px-4 py-3 outline-none focus:border-royal-blue"
               required
             />
