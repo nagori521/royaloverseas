@@ -10,12 +10,24 @@ export default function AddProductForm({ onSave }) {
     countryAvailability: 'Worldwide',
     description: '',
   });
+  const [categoryMode, setCategoryMode] = useState('existing');
   const [images, setImages] = useState([]);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
 
   const updateField = (name, value) => {
     setForm((current) => ({ ...current, [name]: value }));
+  };
+
+  const updateCategory = (value) => {
+    if (value === '__new__') {
+      setCategoryMode('new');
+      updateField('category', '');
+      return;
+    }
+
+    setCategoryMode('existing');
+    updateField('category', value);
   };
 
   const submit = async (event) => {
@@ -46,11 +58,21 @@ export default function AddProductForm({ onSave }) {
         </label>
         <label className="grid gap-2 text-sm font-semibold text-slate-700">
           Category
-          <select value={form.category} onChange={(event) => updateField('category', event.target.value)} className="rounded-md border border-slate-300 px-4 py-3 outline-none focus:border-royal-blue">
+          <select value={categoryMode === 'new' ? '__new__' : form.category} onChange={(event) => updateCategory(event.target.value)} className="rounded-md border border-slate-300 px-4 py-3 outline-none focus:border-royal-blue">
             <option>Rice</option>
             <option>Spices</option>
             <option>Detergent</option>
+            <option value="__new__">+ Add New Category</option>
           </select>
+          {categoryMode === 'new' && (
+            <input
+              value={form.category}
+              onChange={(event) => updateField('category', event.target.value)}
+              placeholder="Enter category"
+              className="rounded-md border border-slate-300 px-4 py-3 outline-none focus:border-royal-blue"
+              required
+            />
+          )}
         </label>
         <label className="grid gap-2 text-sm font-semibold text-slate-700">
           Packaging
