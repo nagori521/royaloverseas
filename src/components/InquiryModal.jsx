@@ -100,9 +100,9 @@ export default function InquiryModal({ product, open, onClose }) {
                   Submit Inquiry
                 </button>
                 <a
-                  href={`https://wa.me/?text=Hello Royal Overseas, I want to inquire about ${encodeURIComponent(product.name || product.title)}.`}
+                  href="https://wa.me/919909582400?text=Hello%20Royal%20Overseas,%20I%20am%20interested%20in%20your%20products."
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="btn-secondary"
                 >
                   <MessageCircle size={18} />

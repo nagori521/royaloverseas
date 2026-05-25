@@ -72,9 +72,9 @@ export default function ContactForm() {
           Submit Inquiry
         </button>
         <a
-          href="https://wa.me/?text=Hello Royal Overseas, I want to discuss an export inquiry."
+          href="https://wa.me/919909582400?text=Hello%20Royal%20Overseas,%20I%20am%20interested%20in%20your%20products."
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className="btn-secondary"
         >
           <MessageCircle size={18} />
