@@ -1,0 +1,19 @@
+User-agent: *
+Disallow: /admin
+Disallow: /ro-panel-2026
+Disallow: */admin/*
+Disallow: */login*
+Disallow: */api/auth*
+Disallow: */api/users*
+Disallow: */api/audit-logs*
+
+# Allow specific public paths
+Allow: /api/products
+Allow: /api/gallery
+Allow: /api/inquiries
+
+# Crawl delay (optional)
+Crawl-delay: 10
+
+# Sitemap
+Sitemap: https://royaloverseas.com/sitemap.xml
