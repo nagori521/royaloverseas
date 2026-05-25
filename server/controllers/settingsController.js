@@ -1,5 +1,9 @@
 import Settings from '../models/Settings.js';
 
+function uploadedImageUrl(file) {
+  return file?.path || file?.secure_url || file?.url;
+}
+
 export async function getSettings(req, res) {
   let settings = await Settings.findOne();
   if (!settings) settings = await Settings.create({});
@@ -7,7 +11,7 @@ export async function getSettings(req, res) {
 }
 
 export async function updateSettings(req, res) {
-  const logo = req.file ? `/uploads/${req.file.filename}` : undefined;
+  const logo = req.file ? uploadedImageUrl(req.file) : undefined;
   const payload = {
     companyName: req.body.companyName,
     email: req.body.email,

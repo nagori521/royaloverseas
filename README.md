@@ -27,7 +27,14 @@ scripts\setup-mongodb-windows.cmd
 ```env
 MONGO_URI=mongodb://127.0.0.1:27017/royaloverseas
 JWT_SECRET=your-very-secure-random-string-here
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 ```
+
+Product, gallery, and settings image uploads are stored in Cloudinary under the
+`royaloverseas` folder. Uploaded image URLs are saved directly in MongoDB, so
+deployments do not depend on a local `uploads/` directory.
 
 3) Verify MongoDB (optional but recommended):
 

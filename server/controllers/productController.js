@@ -1,5 +1,9 @@
 import Product from '../models/Product.js';
 
+function uploadedImageUrl(file) {
+  return file?.path || file?.secure_url || file?.url;
+}
+
 export async function getProducts(req, res) {
   const products = await Product.find().sort({ createdAt: -1 });
   res.json(products);
@@ -12,7 +16,8 @@ export async function getProductById(req, res) {
 }
 
 export async function createProduct(req, res) {
-  const images = req.files?.map((file) => `/uploads/${file.filename}`) || req.body.images || [];
+  const uploadedImages = req.files?.map(uploadedImageUrl).filter(Boolean) || [];
+  const images = uploadedImages.length ? uploadedImages : req.body.images || [];
   const product = await Product.create({
     ...req.body,
     title: req.body.title || req.body.name,
@@ -23,7 +28,7 @@ export async function createProduct(req, res) {
 }
 
 export async function updateProduct(req, res) {
-  const images = req.files?.length ? req.files.map((file) => `/uploads/${file.filename}`) : undefined;
+  const images = req.files?.length ? req.files.map(uploadedImageUrl).filter(Boolean) : undefined;
   const update = {
     ...req.body,
     ...(req.body.name && { title: req.body.name }),
