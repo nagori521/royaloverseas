@@ -50,11 +50,11 @@ export default function Footer() {
           <div className="mt-4 grid gap-3 text-sm text-blue-100">
             <span className="flex items-start gap-3">
               <MapPin className="mt-0.5 shrink-0 text-gold" size={18} />
-              Royal Overseas Trade Office, Mumbai, India
+              Royal Overseas Trade Office, Ahmedabad, India
             </span>
             <span className="flex items-center gap-3">
               <Phone className="shrink-0 text-gold" size={18} />
-              +91 98765 43210
+              +91 99095 82400
             </span>
             <span className="flex items-center gap-3">
               <Mail className="shrink-0 text-gold" size={18} />
