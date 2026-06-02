@@ -1,10 +1,13 @@
 import { motion } from 'framer-motion';
 import { MessageCircle, Send } from 'lucide-react';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { api } from '../services/api.js';
 
 export default function ContactForm() {
+  const location = useLocation();
   const [status, setStatus] = useState('');
+  const defaultSubject = location.state?.productName || 'General Export Inquiry';
   const submitForm = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -27,6 +30,7 @@ export default function ContactForm() {
 
   return (
     <motion.form
+      id="inquiry-form"
       initial={{ opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
@@ -52,6 +56,7 @@ export default function ContactForm() {
               name={name}
               type={type}
               required
+              defaultValue={label === 'Subject' ? defaultSubject : undefined}
               className="rounded-md border border-slate-300 px-4 py-3 outline-none focus:border-royal-blue"
             />
           </label>

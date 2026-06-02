@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { Download, Search } from 'lucide-react';
 import { jsPDF } from 'jspdf';
-import InquiryModal from '../components/InquiryModal.jsx';
 import ProductCard from '../components/ProductCard.jsx';
 import ProductTabs from '../components/ProductTabs.jsx';
 import ProductQuickView from '../components/ProductQuickView.jsx';
@@ -72,13 +72,17 @@ const addWrappedLabel = (doc, label, value, x, y, maxWidth) => {
 };
 
 export default function Products() {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState('All');
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [compareProducts, setCompareProducts] = useState([]);
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState(seedProducts);
   const [isGeneratingCatalog, setIsGeneratingCatalog] = useState(false);
+
+  const handleSendInquiry = (product) => {
+    navigate('/contact#inquiry-form', { state: { productName: product?.name || product?.title || '' } });
+  };
 
   useEffect(() => {
     api.products()
@@ -100,7 +104,7 @@ export default function Products() {
     setCompareProducts((items) =>
       items.some((item) => item.id === product.id)
         ? items.filter((item) => item.id !== product.id)
-        : [...items.slice(-2), product],
+        : [...items, product],
     );
   };
 
@@ -238,7 +242,7 @@ export default function Products() {
                 key={product.id}
                 product={product}
                 index={index}
-                onInquiry={setSelectedProduct}
+                onInquiry={handleSendInquiry}
                 onQuickView={setQuickViewProduct}
                 onCompare={toggleCompare}
                 compareActive={compareProducts.some((item) => item.id === product.id)}
@@ -248,15 +252,10 @@ export default function Products() {
         </div>
       </section>
 
-      <InquiryModal
-        product={selectedProduct}
-        open={Boolean(selectedProduct)}
-        onClose={() => setSelectedProduct(null)}
-      />
       <ProductQuickView
         product={quickViewProduct}
         onClose={() => setQuickViewProduct(null)}
-        onInquiry={setSelectedProduct}
+        onInquiry={handleSendInquiry}
       />
       <ProductCompareBar products={compareProducts} onClear={() => setCompareProducts([])} />
     </>

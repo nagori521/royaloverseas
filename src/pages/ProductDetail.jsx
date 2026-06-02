@@ -1,21 +1,36 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import Breadcrumbs from '../components/Breadcrumbs.jsx';
-import InquiryModal from '../components/InquiryModal.jsx';
 import ProductDetailHero from '../components/ProductDetailHero.jsx';
 import ProductGallery from '../components/ProductGallery.jsx';
 import RelatedProducts from '../components/RelatedProducts.jsx';
+import ProductCompareBar from '../components/ProductCompareBar.jsx';
+import ProductQuickView from '../components/ProductQuickView.jsx';
 import { products as seedProducts } from '../data.js';
 import { api } from '../services/api.js';
 import { normalizeProduct } from '../utils/normalize.js';
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const navigate = useNavigate();
+  const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [compareProducts, setCompareProducts] = useState([]);
   const [products, setProducts] = useState(seedProducts);
   const [loading, setLoading] = useState(true);
   const product = products.find((item) => item.id === id);
+
+  const handleSendInquiry = (productItem) => {
+    navigate('/contact#inquiry-form', { state: { productName: productItem?.name || productItem?.title || '' } });
+  };
+
+  const toggleCompare = (productItem) => {
+    setCompareProducts((items) =>
+      items.some((item) => item.id === productItem.id)
+        ? items.filter((item) => item.id !== productItem.id)
+        : [...items, productItem]
+    );
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -68,7 +83,7 @@ export default function ProductDetail() {
         </div>
       </div>
 
-      <ProductDetailHero product={product} onInquiry={setSelectedProduct} />
+      <ProductDetailHero product={product} onInquiry={handleSendInquiry} />
 
       <section className="section-padding bg-slate-50">
         <div className="container-page">
@@ -101,16 +116,23 @@ export default function ProductDetail() {
           <h2 className="section-title">Related Products</h2>
           <p className="section-copy">Similar export products available from Royal Overseas.</p>
           <div className="mt-10">
-            <RelatedProducts products={relatedProducts} onInquiry={setSelectedProduct} />
+            <RelatedProducts
+              products={relatedProducts}
+              onInquiry={handleSendInquiry}
+              onQuickView={setQuickViewProduct}
+              onCompare={toggleCompare}
+              compareProducts={compareProducts}
+            />
           </div>
         </div>
       </section>
 
-      <InquiryModal
-        product={selectedProduct}
-        open={Boolean(selectedProduct)}
-        onClose={() => setSelectedProduct(null)}
+      <ProductQuickView
+        product={quickViewProduct}
+        onClose={() => setQuickViewProduct(null)}
+        onInquiry={handleSendInquiry}
       />
+      <ProductCompareBar products={compareProducts} onClear={() => setCompareProducts([])} />
     </>
   );
 }

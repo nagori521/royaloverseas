@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, ClipboardCheck, Globe, Handshake, Truck } from 'lucide-react';
 import AnimatedStats from '../components/AnimatedStats.jsx';
@@ -8,16 +8,31 @@ import CertificationSlider from '../components/CertificationSlider.jsx';
 import CountryCard from '../components/CountryCard.jsx';
 import ExportProcess from '../components/ExportProcess.jsx';
 import Hero from '../components/Hero.jsx';
-import InquiryModal from '../components/InquiryModal.jsx';
 import LogoSlider from '../components/LogoSlider.jsx';
 import Newsletter from '../components/Newsletter.jsx';
 import ProductCard from '../components/ProductCard.jsx';
+import ProductCompareBar from '../components/ProductCompareBar.jsx';
+import ProductQuickView from '../components/ProductQuickView.jsx';
 import SEO from '../components/SEO.jsx';
 import Testimonials from '../components/Testimonials.jsx';
 import { certifications, countries, products } from '../data.js';
 
 export default function Home() {
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [compareProducts, setCompareProducts] = useState([]);
+  const navigate = useNavigate();
+
+  const handleSendInquiry = (product) => {
+    navigate('/contact#inquiry-form', { state: { productName: product?.name || product?.title || '' } });
+  };
+
+  const toggleCompare = (product) => {
+    setCompareProducts((items) =>
+      items.some((item) => item.id === product.id)
+        ? items.filter((item) => item.id !== product.id)
+        : [...items, product]
+    );
+  };
 
   return (
     <>
@@ -45,7 +60,10 @@ export default function Home() {
                 key={product.id}
                 product={product}
                 index={index}
-                onInquiry={setSelectedProduct}
+                onInquiry={handleSendInquiry}
+                onQuickView={setQuickViewProduct}
+                onCompare={toggleCompare}
+                compareActive={compareProducts.some((item) => item.id === product.id)}
               />
             ))}
           </div>
@@ -135,11 +153,12 @@ export default function Home() {
       <CertificationSlider />
       <Newsletter />
 
-      <InquiryModal
-        product={selectedProduct}
-        open={Boolean(selectedProduct)}
-        onClose={() => setSelectedProduct(null)}
+      <ProductQuickView
+        product={quickViewProduct}
+        onClose={() => setQuickViewProduct(null)}
+        onInquiry={handleSendInquiry}
       />
+      <ProductCompareBar products={compareProducts} onClear={() => setCompareProducts([])} />
     </>
   );
 }

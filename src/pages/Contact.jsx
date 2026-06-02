@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 import ContactForm from '../components/ContactForm.jsx';
@@ -5,6 +7,23 @@ import ContactInfoCard from '../components/ContactInfoCard.jsx';
 import FAQAccordion from '../components/FAQAccordion.jsx';
 
 export default function Contact() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.hash && !location.state?.scrollToInquiry) return;
+
+    const scrollToForm = () => {
+      const element = document.getElementById('inquiry-form');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    scrollToForm();
+    const timer = window.setTimeout(scrollToForm, 200);
+    return () => window.clearTimeout(timer);
+  }, [location.hash, location.state]);
+
   return (
     <>
       <section className="bg-royal-blue py-16 text-white sm:py-20">
