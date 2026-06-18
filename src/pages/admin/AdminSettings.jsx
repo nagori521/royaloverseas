@@ -6,7 +6,7 @@ export default function AdminSettings() {
   const [settings, setSettings] = useState({
     companyName: 'Royal Overseas',
     email: 'info@royaloverseas.com',
-    whatsapp: '+91 98765 43210',
+    whatsapp: '+91 63595 78922',
     address: 'Royal Overseas Trade Office, Mumbai, India',
     facebook: '',
     instagram: '',
@@ -23,7 +23,7 @@ export default function AdminSettings() {
         setSettings({
           companyName: data.companyName || 'Royal Overseas',
           email: data.email || 'info@royaloverseas.com',
-          whatsapp: data.whatsapp || '+91 98765 43210',
+          whatsapp: data.whatsapp || '+91 63595 78922',
           address: data.address || '',
           facebook: data.socialLinks?.facebook || '',
           instagram: data.socialLinks?.instagram || '',

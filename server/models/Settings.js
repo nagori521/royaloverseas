@@ -5,7 +5,7 @@ const settingsSchema = new mongoose.Schema(
     companyName: { type: String, default: 'Royal Overseas' },
     logo: { type: String, default: '' },
     email: { type: String, default: 'info@royaloverseas.com' },
-    whatsapp: { type: String, default: '+91 98765 43210' },
+    whatsapp: { type: String, default: '+91 63595 78922' },
     address: { type: String, default: 'Royal Overseas Trade Office, Mumbai, India' },
     socialLinks: {
       facebook: { type: String, default: '' },

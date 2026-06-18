@@ -44,7 +44,7 @@ export default function Contact() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[
               [MapPin, 'Office Address', 'Royal Overseas Trade Office', 'Mumbai, India'],
-              [Phone, 'Phone', '+91 98765 43210', 'Export inquiry desk'],
+              [Phone, 'Phone', '+91 63595 78922', 'Export inquiry desk'],
               [Mail, 'Email', 'info@royaloverseas.com', 'Response within 24 hours'],
               [Clock, 'Working Hours', 'Mon - Sat, 10 AM - 7 PM', 'India Standard Time'],
             ].map(([Icon, title, value, detail], index) => (
